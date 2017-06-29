@@ -1,0 +1,8 @@
+import com.acme.widgets.inventory.InventoryProduct
+
+model {
+	Iterable<InventoryProduct> inventoryProductList
+}
+
+json tmpl.inventoryProduct(inventoryProductList ?: [])
+

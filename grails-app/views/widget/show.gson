@@ -1,0 +1,8 @@
+import com.acme.widgets.products.Widget
+
+model{
+
+    Widget widget
+}
+
+json tmpl.widget(widget)

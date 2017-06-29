@@ -1,0 +1,7 @@
+import com.acme.widgets.inventory.InventoryProduct
+
+model {
+	InventoryProduct inventoryProduct
+}
+
+json tmpl.inventoryProduct(inventoryProduct)

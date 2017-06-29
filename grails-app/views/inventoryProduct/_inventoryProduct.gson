@@ -1,0 +1,12 @@
+import com.acme.widgets.inventory.InventoryProduct
+
+model {
+	InventoryProduct inventoryProduct
+}
+
+json {
+
+	sku inventoryProduct.product.sku
+	count inventoryProduct.count
+    description inventoryProduct?.product?.productInfo?.description ?: 'n/a'
+}

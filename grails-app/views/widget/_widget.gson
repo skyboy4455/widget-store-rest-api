@@ -1,0 +1,13 @@
+import com.acme.widgets.products.Widget
+
+model{
+    Widget widget
+}
+
+json{
+        where  'widget'
+        sku widget.sku
+        type widget.widgetType.name
+        finish widget.widgetFinish.name
+        size widget.widgetSize.name
+}
