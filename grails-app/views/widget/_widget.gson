@@ -5,7 +5,6 @@ model{
 }
 
 json{
-        where  'widget'
         sku widget.sku
         type widget.widgetType.name
         finish widget.widgetFinish.name

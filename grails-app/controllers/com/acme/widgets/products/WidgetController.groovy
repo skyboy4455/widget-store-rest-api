@@ -1,13 +1,38 @@
 package com.acme.widgets.products
 
+import com.acme.widgets.WidgetService
+import com.acme.widgets.web.WidgetQuery
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class WidgetController {
 
+    WidgetService widgetService
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+
+    def findBySku(){
+
+        Widget widget = widgetService.findBySku(params?.sku?:'')
+
+        if(!widget){
+           render(view: 'noWidgetFound', model:[sku:params?.sku])
+        }
+        else{
+            respond widget
+        }
+
+    }
+
+    def query(){
+
+        WidgetQuery widgetQuery= new WidgetQuery(params)
+        respond widgetService.findAllWidgetsFromQuery(widgetQuery)
+
+    }
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
