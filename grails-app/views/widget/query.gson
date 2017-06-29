@@ -1,0 +1,8 @@
+
+import com.acme.widgets.products.Widget
+
+model{
+    Iterable<Widget> widgetList
+}
+
+json tmpl.widget(widgetList?:[])

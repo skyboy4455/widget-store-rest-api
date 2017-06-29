@@ -27,10 +27,9 @@ presentations of domain class resources.
 
 | URL   |      METHOD      |  Description | Error Response  / Message|
 |----------|:-------------:|:------|-----|
-| ./product/widget |  GET | Returns all widgets | |
-| ./product/widget\[?type=widgetType\]\[&size=widgetSize\]\[&finish=widgetFinish\] |  GET | Returns widgets matching params | 400 (InvalidInput)|
-| ./product/widget/\<sku\> |  GET | Returns widget based on sku | 404 (ResourceNotFound)|
-| ./product/widget |  POST | Creates a new widget type | 400 (InvalidInput)|
+| ./products/widgets\[?type=widgetType\]\[&size=widgetSize\]\[&finish=widgetFinish\] |  GET | Returns widgets matching params | 400 (InvalidInput)|
+| ./product/widgets/\<sku\> |  GET | Returns widget based on sku | 404 (ResourceNotFound)|
+| ./product/widgets |  POST | Creates a new widget type | 400 (InvalidInput)|
 
 
 NOTE: Only widget products have implementation.  Open to create other product classifications
