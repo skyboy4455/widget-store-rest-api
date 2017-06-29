@@ -1,0 +1,11 @@
+response.status 404
+
+model{
+    String sku
+}
+
+json {
+    message "No widget with sku ${sku}"
+    code "no.resource.found"
+    error 404
+}

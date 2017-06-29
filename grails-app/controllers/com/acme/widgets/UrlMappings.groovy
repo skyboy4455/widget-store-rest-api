@@ -5,11 +5,23 @@ class UrlMappings {
     static mappings = {
 
 
-        // Mapping for Products
-        //get "/inventory/products/$id(.$format)?" (controller: "InventoryProduct", action: "show")
-        get "/inventory/products/${sku}?" (controller: "InventoryProduct", action: "sku")
-        put "/inventory/products/$id(.$format)?"(controller: "InventoryProduct", action:"update")
-        get "/inventory/products(.$format)?" (controller: "InventoryProduct", action: "index")
+        // Mapping for Inventory Products
+
+        get "/api/inventory/products/${sku}?" (controller: "InventoryProduct", action: "findBySku")
+        put "/api/inventory/products/${sku}"(controller: "InventoryProduct", action:"updateInventory")
+        post "/api/inventory/products(.$format)?"(controller: "InventoryProduct", action:"createInventory")
+        delete "/api/inventory/products/$id(.$format)?"(controller: "InventoryProduct", action:"deleteInventory")
+        get "/api/inventory/products(.$format)?" (controller: "InventoryProduct", action: "query")
+
+        // For Widgets
+        get "/api/products/widgets(.$format)?"(controller: "Widget", action:"query")
+        get "/api/products/widgets/${sku}"(controller: "Widget", action:"findBySku")
+        put "/api/products/widgets/${sku}"(controller: "Widget", action:"updateWidget")
+        delete "/api/products/widgets/${sku}"(controller: "Widget", action:"deleteWidget")
+        post "/inventory/products(.$format)?" (controller: "Widget", action: "createWidget")
+
+
+        //Mapping for orders
 
 
 
