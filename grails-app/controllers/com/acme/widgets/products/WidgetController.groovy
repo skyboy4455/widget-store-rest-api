@@ -27,6 +27,11 @@ class WidgetController {
 
     }
 
+    def deleteWidget(){
+
+        render(view: '/errors/unsupportedHttpVerb')
+    }
+
     def query(){
 
         WidgetQuery widgetQuery= new WidgetQuery(params)

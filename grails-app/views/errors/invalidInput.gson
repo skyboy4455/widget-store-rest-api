@@ -1,0 +1,7 @@
+response.status 405
+
+json {
+    message "Unsupported HTTP Verb for this resource"
+    code "unsupported.http.verb"
+    error 405
+}

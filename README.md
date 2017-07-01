@@ -30,6 +30,8 @@ presentations of domain class resources.
 | ./products/widgets\[?type=widgetType\]\[&size=widgetSize\]\[&finish=widgetFinish\] |  GET | Returns widgets matching params | 400 (InvalidInput)|
 | ./product/widgets/\<sku\> |  GET | Returns widget based on sku | 404 (ResourceNotFound)|
 | ./product/widgets |  POST | Creates a new widget type | 400 (InvalidInput)|
+| ./product/widgets |  PUT | Creates a new widget type | 405 (UnsupportedHttpVerb)|
+| ./product/widgets |  DELETE | Creates a new widget type | 405 (UnsupportedHttpVerb)|
 
 
 NOTE: Only widget products have implementation.  Open to create other product classifications

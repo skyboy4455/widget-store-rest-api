@@ -18,74 +18,42 @@ class InventoryProductController {
         respond InventoryProduct.list(params), model:[inventoryProductCount: InventoryProduct.count()]
     }
 
-    def show(InventoryProduct inventoryProduct) {
+    def createInventory(){
 
-        println "Running Show command - Inventory Product XXX"
-        respond inventoryProduct
+        render(view: '/errors/unsupportedHttpVerb')
     }
 
-    def sku(){
+    def deleteInventory(){
+        render(view: '/errors/unsupportedHttpVerb')
+    }
+
+    @Transactional
+    def updateInventory(){
+
+        println request.getJSON().toString()
+        //TODO: Implement
+        // Parse JSON pass to InventoryProductService
+        //
+
+        //Errors - 404 (ResourceNotFound) or 400 (InvalidInput)
+
+        render( view: "successInventoryUpdate")
+
+    }
+
+
+    def findBySku(){
         println params.sku
         respond InventoryProduct.findByProduct(Product.findBySku(params.sku))
     }
 
-    def find(){
-
-        println "Inventory Controller Find Method ${params}. ${request.parts}"
-        println "Params: ${params}"
-        InventoryProduct inventoryProduct = InventoryProduct.last() //FIXME:
-        respond inventoryProduct
+    def query(){
+        //TODO: Implement Query based on Count
+        // lessThan
+        // Greater than
+        // Equal
+        render view:"index", model:[ inventoryProductList: InventoryProduct.list(), inventoryProductCount: InventoryProduct.count()]
     }
 
-    @Transactional
-    def save(InventoryProduct inventoryProduct) {
-        if (inventoryProduct == null) {
-            transactionStatus.setRollbackOnly()
-            render status: NOT_FOUND
-            return
-        }
 
-        if (inventoryProduct.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond inventoryProduct.errors, view:'create'
-            return
-        }
-
-        inventoryProduct.save flush:true
-
-        respond inventoryProduct, [status: CREATED, view:"show"]
-    }
-
-    @Transactional
-    def update(InventoryProduct inventoryProduct) {
-        if (inventoryProduct == null) {
-            transactionStatus.setRollbackOnly()
-            render status: NOT_FOUND
-            return
-        }
-
-        if (inventoryProduct.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond inventoryProduct.errors, view:'edit'
-            return
-        }
-
-        inventoryProduct.save flush:true
-
-        respond inventoryProduct, [status: OK, view:"show"]
-    }
-
-    @Transactional
-    def delete(InventoryProduct inventoryProduct) {
-
-        if (inventoryProduct == null) {
-            transactionStatus.setRollbackOnly()
-            render status: NOT_FOUND
-            return
-        }
-
-        inventoryProduct.delete flush:true
-
-        render status: NO_CONTENT
-    }
 }

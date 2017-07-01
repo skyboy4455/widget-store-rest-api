@@ -1,0 +1,11 @@
+import com.acme.widgets.orders.PurchaseOrder
+
+model {
+	PurchaseOrder purchaseOrder
+}
+
+json{
+
+    orderNum purchaseOrder.id
+    items tmpl.'/orderItem/orderItem'(purchaseOrder.items)
+}
