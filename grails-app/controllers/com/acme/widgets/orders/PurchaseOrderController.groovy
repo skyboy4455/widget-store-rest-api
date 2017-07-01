@@ -11,15 +11,15 @@ class OrderController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Order.list(params), model:[orderCount: Order.count()]
+        respond PurchaseOrder.list(params)//, model:[orderCount: PurchaseOrder.count()]
     }
 
-    def show(Order order) {
+    def show(PurchaseOrder order) {
         respond order
     }
 
     @Transactional
-    def save(Order order) {
+    def save(PurchaseOrder order) {
         if (order == null) {
             transactionStatus.setRollbackOnly()
             render status: NOT_FOUND
@@ -38,7 +38,7 @@ class OrderController {
     }
 
     @Transactional
-    def update(Order order) {
+    def update(PurchaseOrder order) {
         if (order == null) {
             transactionStatus.setRollbackOnly()
             render status: NOT_FOUND
@@ -57,7 +57,7 @@ class OrderController {
     }
 
     @Transactional
-    def delete(Order order) {
+    def delete(PurchaseOrder order) {
 
         if (order == null) {
             transactionStatus.setRollbackOnly()

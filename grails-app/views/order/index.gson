@@ -1,8 +1,0 @@
-import com.acme.widgets.orders.Order
-
-model {
-	Iterable<Order> orderList
-}
-
-json tmpl.order(orderList ?: [])
-

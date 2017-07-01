@@ -1,7 +1,0 @@
-import com.acme.widgets.orders.Order
-
-model {
-	Order order
-}
-
-json tmpl.order(order)
