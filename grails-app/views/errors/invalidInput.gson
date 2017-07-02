@@ -1,6 +1,6 @@
-response.status 405
+response.status 400
 
 json {
     message "Invalided Input"
-    error 405
+    error 400
 }

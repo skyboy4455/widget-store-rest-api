@@ -4,5 +4,5 @@ model {
 	Iterable<PurchaseOrder> purchaseOrderList
 }
 
-json tmpl.order(purchaseOrderList ?: [])
+json tmpl.purchaseOrder(purchaseOrderList ?: [])
 

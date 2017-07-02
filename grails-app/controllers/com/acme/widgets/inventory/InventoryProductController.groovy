@@ -34,6 +34,7 @@ class InventoryProductController {
 
 
         String sku = params?.sku?.trim()?.toUpperCase()
+        println "Req JSON: " + request?.JSON?.count
         InventoryProduct inventoryProduct = InventoryProduct.findByProduct(Product.findBySku(sku?.trim()?.toUpperCase()))
 
         if (inventoryProduct) {

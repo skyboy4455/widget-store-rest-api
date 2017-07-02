@@ -11,4 +11,8 @@ class Product {
         sku blank:false, unique: true
         productInfo nullable: true
     }
+
+    static mapping = {
+        tablePerHierarchy false
+    }
 }

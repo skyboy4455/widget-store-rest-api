@@ -11,9 +11,10 @@ class Widget extends Product {
 
     static constraints = {
 
-        widgetSize nullable: false
+
         widgetFinish nullable: false
-        widgetType nullable: false, unique: ['widgetSize','widgetFinish']
+        widgetType nullable: false
+        widgetSize nullable: false
 
     }
 

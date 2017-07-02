@@ -1,4 +1,4 @@
-package com.acme.widgets.orders
+package com.acme.widgets.inventory
 
 import grails.converters.JSON
 import grails.test.mixin.integration.Integration

@@ -7,6 +7,8 @@ class OrderItem {
     String sku
     Integer total=1
 
+    static belongsTo = [purchaseOrder:PurchaseOrder]
+
     static constraints = {
         sku nullable: false
         total nullable: false, min: 1
