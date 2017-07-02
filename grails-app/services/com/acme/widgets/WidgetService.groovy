@@ -4,6 +4,7 @@ import com.acme.widgets.products.Widget
 import com.acme.widgets.products.WidgetFinish
 import com.acme.widgets.products.WidgetSize
 import com.acme.widgets.products.WidgetType
+import com.acme.widgets.web.WidgetCreateInfo
 import com.acme.widgets.web.WidgetQuery
 import grails.transaction.Transactional
 
@@ -18,12 +19,17 @@ class WidgetService {
         WidgetSize widgetSize
         WidgetType widgetType
 
-        widgetType = widgetQuery?.type ? WidgetType.findByName(widgetQuery?.type) : null
-        widgetSize = widgetQuery?.size ? WidgetSize.findByName(widgetQuery?.size) : null
-        widgetFinish = widgetQuery?.finish ? WidgetFinish.findByName(widgetQuery?.finish) : null
 
 
-        // All Parames - List of 1
+        // No query params, just return everything
+        if(!widgetQuery?.type && !widgetQuery?.size && !widgetQuery?.finish ){
+            return Widget.list()
+        }
+
+        widgetType = WidgetType.findByName(widgetQuery?.type)
+        widgetSize = WidgetSize.findByName(widgetQuery?.size)
+        widgetFinish = WidgetFinish.findByName(widgetQuery?.finish)
+
         if (widgetType && widgetSize && widgetFinish) {
 
 //            widgets = Widget.findAllByWidgetFinishAndWidgetSizeAndWidgetType(widgetFinish, widgetSize, widgetType)
@@ -57,15 +63,49 @@ class WidgetService {
             widgets = Widget.findAllByWidgetFinish(widgetFinish)
 
         } else {
-            widgets = Widget.findAll()
+            widgets = []
         }
 
 
         return widgets
     }
 
-    Widget findBySku(String sku){
+    Widget findBySku(String sku) {
 
         return Widget.findBySku(sku)
+    }
+
+    /**
+     * Map contains
+     * @param widgetComponentMap
+     * @return
+     */
+    Widget createWidget(WidgetCreateInfo widgetCreateInfo) {
+
+        WidgetType widgetType = WidgetType.findOrSaveWhere(
+                name: widgetCreateInfo.widgetTypeName,
+                skuCode: widgetCreateInfo.widgetTypeSkuCode)
+
+        WidgetSize widgetSize = WidgetSize.findOrSaveWhere(
+                name: widgetCreateInfo.widgetSizeName,
+                skuCode: widgetCreateInfo.widgetSizeSkuCode
+        )
+
+        WidgetFinish widgetFinish = WidgetFinish.findOrSaveWhere(
+                name: widgetCreateInfo.widgetFinishName,
+                skuCode: widgetCreateInfo.widgetFinishSkuCode
+        )
+
+        Widget widget = Widget.findOrCreateWhere(
+                widgetType: widgetType,
+                widgetFinish: widgetFinish,
+                widgetSize: widgetSize
+        )
+
+        widget.generateSku()
+        widget.save(flush:true)
+
+        return widget
+
     }
 }

@@ -16,19 +16,23 @@ class PurchaseOrderService {
      * NOTE: If any of the skus do not exist the operation fails
      * @param skuCountMap
      */
-    Map<String, String> createNewOrder(Map<String, Integer> skuCountMap) {
+    Map<String, String> createNewOrder( Map<String, Integer> skuCountMap) {
 
         Map<String, String> errors = [:]
 
         if (verifyInventoryForCreate(skuCountMap)) {
 
-            PurchaseOrder purchaseOrder = new PurchaseOrder().save()
+            PurchaseOrder purchaseOrder
+            purchaseOrder = new PurchaseOrder().save()
             OrderItem orderItem
             skuCountMap.keySet().each { String sku ->
 
                 orderItem = new OrderItem(sku: sku, total: skuCountMap[sku], purchaseOrder: purchaseOrder)
                 purchaseOrder.addToItems(orderItem)
             }
+
+            //TODO:  Add transaction to update inventor to remove quantity of products
+            //       based on order
 
             purchaseOrder.save(flush: true)
         } else {
@@ -115,20 +119,9 @@ class PurchaseOrderService {
      */
     boolean verifyInventoryForCreate(Map<String, Integer> skuCountMap) {
 
+        //FIXME: Implement at later day
         boolean hasInventory = true
-        InventoryProduct inventoryProduct
-        skuCountMap.keySet().each { String sku ->
 
-            inventoryProduct = InventoryProduct.findByProduct(Product.findBySku(sku))
-            if (inventoryProduct) {
-                if (skuCountMap[sku] > inventoryProduct.count) {
-                    //Only indicate failure to get inventory
-                    hasInventory = false
-                }
-            } else {
-                hasInventory = false
-            }
-        }
 
         return hasInventory
     }

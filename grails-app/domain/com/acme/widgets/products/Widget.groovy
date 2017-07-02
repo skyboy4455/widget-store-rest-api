@@ -10,8 +10,6 @@ class Widget extends Product {
     WidgetSize widgetSize
 
     static constraints = {
-
-
         widgetFinish nullable: false
         widgetType nullable: false
         widgetSize nullable: false
@@ -27,7 +25,7 @@ class Widget extends Product {
 
     String toString(){
 
-        "${widgetType}, ${widgetFinish}, ${widgetSize}"
+        "${widgetType}, ${widgetFinish}: ${widgetSize}"
     }
 
     void generateSku(){

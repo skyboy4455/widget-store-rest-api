@@ -1,0 +1,10 @@
+import com.acme.widgets.orders.OrderItem
+
+model {
+	OrderItem orderItem
+}
+
+json {
+	sku orderItem.sku
+    quantity orderItem.total
+}

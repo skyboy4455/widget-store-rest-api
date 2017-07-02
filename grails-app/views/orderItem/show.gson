@@ -1,0 +1,7 @@
+import com.acme.widgets.orders.OrderItem
+
+model {
+	OrderItem orderItem
+}
+
+json tmpl.orderItem(orderItem)

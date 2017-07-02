@@ -12,7 +12,7 @@ class InventoryProduct {
     static constraints = {
 
         product nullable: false
-        count nullable: false, min: 0
+        count nullable: false //min: 0 TODO: Currently supports negative values.  This could support backlog request.
     }
 
     static mapping = {

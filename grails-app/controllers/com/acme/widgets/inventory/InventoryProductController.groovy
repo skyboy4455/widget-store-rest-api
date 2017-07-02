@@ -22,6 +22,7 @@ class InventoryProductController {
 
     def createInventory() {
 
+
         render(view: '/errors/unsupportedHttpVerb')
     }
 
@@ -29,7 +30,7 @@ class InventoryProductController {
         render(view: '/errors/unsupportedHttpVerb')
     }
 
-    @Transactional
+
     def updateInventory() {
 
 

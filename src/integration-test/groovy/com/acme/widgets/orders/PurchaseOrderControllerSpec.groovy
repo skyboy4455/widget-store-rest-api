@@ -1,6 +1,6 @@
 package com.acme.widgets.orders
 
-
+import grails.converters.JSON
 import grails.test.mixin.integration.Integration
 import grails.transaction.*
 import static grails.web.http.HttpHeaders.*
@@ -24,6 +24,9 @@ class PurchaseOrderControllerSpec extends GebSpec {
         def resp = restBuilder().get("$baseUrl/api/v1/store/orders")
         def orderResp = restBuilder().get("$baseUrl/api/v1/store/orders/1")
         def failedResp = restBuilder().get("$baseUrl/api/v1/store/orders/2")
+
+        println resp.json.toString()
+        println orderResp.json.toString()
 
         then: "The response is correct"
 
@@ -55,6 +58,8 @@ class PurchaseOrderControllerSpec extends GebSpec {
             )
         }
 
+        println resp.json.toString()
+
         then: "The response is correct"
 
         //index
@@ -72,26 +77,29 @@ class PurchaseOrderControllerSpec extends GebSpec {
                             ([quantity:5, sku:"WDG-BASE-COPPER-L"]),
                             ([quantity:1, sku:"WDG-BASE-COPPER-S"]),
                             ([quantity:1, sku:"WDG-BASE-COPPER-M"]),
+                            ([quantity:1, sku:"WDG-MEGA-GOLD-M"]),
+
                     ]
             )
         }
 
-        def notEnuffResp = restBuilder().put("$baseUrl/api/v1/store/orders/1") {
-            json(
-                    [
-                            ([quantity:99, sku:"WDG-BASE-COPPER-L"])
-                    ]
-            )
-        }
+        println resp.json.toString()
 
         then: "The response is correct"
 
         //index
         resp.status == OK.value()
-        resp.json.items.find{ it.sku == "WDG-BASE-COPPER-L"}.quantity == 5
+        resp.json.items.find{ it.sku == "WDG-BASE-COPPER-L"}.quantity == 5 //New Records
+        resp.json.items.find{ it.sku == "WDG-MEGA-GOLD-M"}.quantity == 1 //Changed from 10
 
-        //Should have failed with not enough inventory
-        notEnuffResp.status == BAD_REQUEST.value()
+    }
+
+    void "Test DELETE is not supported"(){
+
+        when: "Delete HTTP request"
+        def deleteResp = restBuilder().delete("$baseUrl/api/v1/store/orders/1")
+        then: "Verify status is 405"
+        deleteResp.status == METHOD_NOT_ALLOWED.value()
 
     }
 

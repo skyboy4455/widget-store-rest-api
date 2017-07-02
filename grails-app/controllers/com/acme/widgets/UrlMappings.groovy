@@ -18,16 +18,18 @@ class UrlMappings {
         get "/api/v1/products/widgets/${sku}"(controller: "Widget", action: "findBySku")
         put "/api/v1/products/widgets/${sku}"(controller: "Widget", action: "updateWidget")
         delete "/api/v1/products/widgets/${sku}"(controller: "Widget", action: "deleteWidget")
-        post "/api/v1/inventory/products(.$format)?"(controller: "Widget", action: "createWidget")
+        post "/api/v1/products/widgets?"(controller: "Widget", action: "createWidget")
 
         //Mapping for orders
         //FIXME: Needs to be secured to admin
         get "/api/v1/store/orders(.$format)?"(controller: "PurchaseOrder", action: "index")
-
         get "/api/v1/store/orders/${id}(.$format)?"(controller: "PurchaseOrder", action: "show")
-        //put "/api/v1/store/orders/${id}(.$format)?"(controller: "PurchaseOrder", action: "updatePurchaseOrder")
+
+        delete "/api/v1/store/orders/${id}(.$format)?"(controller: "PurchaseOrder", action: "delete")
+
+
         put "/api/v1/store/orders/${orderNum}"(controller: "PurchaseOrder", action: "updatePurchaseOrder")
-        post "/api/v1/store/orders"(controller: "PurchaseOrder", action: "createInventory")
+        post "/api/v1/store/orders?"(controller: "PurchaseOrder", action: "createInventory")
 
 
 

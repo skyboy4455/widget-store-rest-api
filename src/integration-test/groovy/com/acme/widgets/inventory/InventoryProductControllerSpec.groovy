@@ -27,6 +27,8 @@ class InventoryProductControllerSpec extends GebSpec {
         def gtResp = restBuilder().get("$baseUrl/api/v1/inventory/products?gt=10")
         def eqResp = restBuilder().get("$baseUrl/api/v1/inventory/products?eq=10")
 
+        println eqResp.json.toString()
+
 
 
         then: "verify response is correct"
@@ -77,15 +79,16 @@ class InventoryProductControllerSpec extends GebSpec {
         when: "The update single sku count"
         def resp = restBuilder().put("$baseUrl/api/v1/inventory/products/WDG-BASE-GOLD-M") {
             json(
-                    count: 1
+                    count: 2
             )
         }
 
+        println resp.json
 
         then: "verify response is correct"
         resp.status == OK.value()
         resp.json.sku == "WDG-BASE-GOLD-M"
-        resp.json.count == 1
+        resp.json.count == 2
 
 
     }
