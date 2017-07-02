@@ -1,4 +1,4 @@
-# WidgiWalla - Widget Store REST API
+# Widget Store REST API
 Provides a REST API for a fictional Widget Store that one day hopes to expand
 
 This application makes use of the Grails REST-API profile.  It provides examples of JSON views for rendering customs
@@ -38,60 +38,65 @@ presentations of domain class resources.
 NOTE: Only widget products have implementation.  Open to create other product classifications
 
 ##### Examples
-**XXXTitle**
+**Query Widgets Types**
 
-_METHODXXX: \<baseUrl\>XXXURL_
+_GET: \<baseUrl\>/api/v1/products/widgets?size=small&type=base&finish=gold__
 
-**body**
- ```json
-[
-  
-]
-```
+
 
 **result**
  ```json
 [
-  
+  {
+    "sku": "WDG-BASE-GOLD-S",
+    "type": "base",
+    "finish": "gold",
+    "size": "small"
+  },
+  {
+    "sku": "WDG-BASE-COPPER-S",
+    "type": "base",
+    "finish": "copper",
+    "size": "small"
+  },
+  {
+    "sku": "WDG-BASE-STEEL-S",
+    "type": "base",
+    "finish": "steel",
+    "size": "small"
+  },
+  {
+    "sku": "WDG-BASE-WHITE-S",
+    "type": "base",
+    "finish": "white",
+    "size": "small"
+  },
+  {
+    "sku": "WDG-BASE-BLACK-S",
+    "type": "base",
+    "finish": "black",
+    "size": "small"
+  }
 ]
 ```
+Truncated results
 
-**XXXTitle**
+**Create New Widget Type**
 
-_METHODXXX: \<baseUrl\>XXXURL_
-
-**body**
- ```json
-[
-  
-]
-```
-
-**result**
- ```json
-[
-  
-]
-```
-
-**XXXTitle**
-
-_POST: \<baseUrl\>XXXURL_
+_POST: \<baseUrl\>/api/v1/products/widgets_
 
 **body**
  ```json
 {
-  "widgetType" : {"name": "newType", "skuCode":"NT_SKU"},
-  "widgetSize" : {"name": "newSize", "skuCode":"NS_SKU"},
-  "widgetFinish" : {"name": "newFinish", "skuCode":"NF_SKU"}
+  "widgetType":{"name":"newType", "skuCode":"NT"},
+  "widgetSize":{"name":"newSize", "skuCode":"NS"},
+  "widgetFinish":{"name":"newFinish", "skuCode":"NF"}
 }
 ```
 
 **result**
  ```json
-[
-  
-]
+{"sku":"WDG-NT-NF-NS","type":"newType","finish":"newFinish","size":"newSize"}
 ```
 
 
@@ -268,8 +273,16 @@ NOTE: Example shows operations
 
 #### Domain Classes
 
+
+
 View Domain Classes: 
 [Domain Class Diagram](https://raw.githubusercontent.com/skyboy101/widget-store-rest-api/api.widget.refactor.1/deploy/domain_diagram.png?token=AC7q_-sX2irceGDUrNVAb9GtdL9AA_GCks5ZYl4VwA%3D%3D)
+
+* **Widget**s extend the **Product**. **Product** has little information, other than a **ProductInfo** and the SKU string.
+* **InventoryProduct** has a reference to **Product**, and maintains the inventory counts for each **Product**
+* **Order** has a reference to many **OrderItem** objects. **OrderItem** belongs to **Order** to cascade deletes. To support decomposition, 
+**OrderItem** only stores the SKU string of a **Product**, and not a reference to the **Product** object; this minimizes database joins.
+
     
 #### Controllers
 
