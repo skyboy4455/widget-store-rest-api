@@ -7,18 +7,20 @@ class UrlMappings {
 
         // Mapping for Inventory Products
 
-        get "/api/inventory/products/${sku}?" (controller: "InventoryProduct", action: "findBySku")
-        put "/api/inventory/products/${sku}"(controller: "InventoryProduct", action:"updateInventory")
-        post "/api/inventory/products(.$format)?"(controller: "InventoryProduct", action:"createInventory")
-        delete "/api/inventory/products/$id(.$format)?"(controller: "InventoryProduct", action:"deleteInventory")
-        get "/api/inventory/products(.$format)?" (controller: "InventoryProduct", action: "query")
+        get "/api/v1/inventory/products/${sku}?" (controller: "InventoryProduct", action: "findBySku")
+        get "/api/v1/inventory/products(.$format)?" (controller: "InventoryProduct", action: "query")
+        put "/api/v1/inventory/products/${sku}"(controller: "InventoryProduct", action:"updateInventory")
+        post "/api/v1/inventory/products(.$format)?"(controller: "InventoryProduct", action:"createInventory")
+        delete "/api/v1/inventory/products/$id(.$format)?"(controller: "InventoryProduct", action:"deleteInventory")
+        delete "/api/v1/inventory/products?"(controller: "InventoryProduct", action:"deleteInventory")
+
 
         // For Widgets
-        get "/api/products/widgets(.$format)?"(controller: "Widget", action:"query")
-        get "/api/products/widgets/${sku}"(controller: "Widget", action:"findBySku")
-        put "/api/products/widgets/${sku}"(controller: "Widget", action:"updateWidget")
-        delete "/api/products/widgets/${sku}"(controller: "Widget", action:"deleteWidget")
-        post "/inventory/products(.$format)?" (controller: "Widget", action: "createWidget")
+        get "/api/v1/products/widgets(.$format)?"(controller: "Widget", action:"query")
+        get "/api/v1/products/widgets/${sku}"(controller: "Widget", action:"findBySku")
+        put "/api/v1/products/widgets/${sku}"(controller: "Widget", action:"updateWidget")
+        delete "/api/v1/products/widgets/${sku}"(controller: "Widget", action:"deleteWidget")
+        post "/api/v1/inventory/products(.$format)?" (controller: "Widget", action: "createWidget")
 
 
         //Mapping for orders

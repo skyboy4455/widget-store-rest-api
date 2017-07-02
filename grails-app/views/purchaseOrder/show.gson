@@ -1,7 +1,7 @@
 import com.acme.widgets.orders.PurchaseOrder
 
 model {
-	PurchaseOrder order
+	PurchaseOrder purchaseOrder
 }
 
-json tmpl.order(order)
+json tmpl.purchaseOrder(purchaseOrder)

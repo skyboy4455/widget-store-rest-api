@@ -20,13 +20,22 @@ class InventoryProductControllerSpec extends GebSpec {
     }
 
     void "inventory/products"() {
-        when: "The home page is requested"
+        when: "Verify Default Records exist"
         def resp = restBuilder().get("$baseUrl/api/v1/inventory/products")
+        def rangeResp = restBuilder().get("$baseUrl/api/v1/inventory/products?lt=100&gt=50")
+        def ltResp = restBuilder().get("$baseUrl/api/v1/inventory/products?lt=50")
+        def gtResp = restBuilder().get("$baseUrl/api/v1/inventory/products?gt=10")
+        def eqResp = restBuilder().get("$baseUrl/api/v1/inventory/products?eq=10")
+
 
 
         then: "verify response is correct"
         resp.status == OK.value()
         resp.json.size() == 60 //60 Default Elements
+        ltResp.json.size() == 25
+        gtResp.json.size() == 50
+        eqResp.json.size() == 5
+        rangeResp.json.size() == 20
 
     }
 
@@ -37,20 +46,21 @@ class InventoryProductControllerSpec extends GebSpec {
 
         then: "verify response is correct"
         resp.status == OK.value()
-        resp.json.sku == "WDG-BASE-GOLD-M" //60 Default Elements
+        resp.json.sku == "WDG-BASE-GOLD-M"
 
     }
 
-    void "inventory/products/valid sku (lowercase)"() {
-        when: "The sku exists, but is lowercase"
+    void "inventory/products/valid lowercase sku"() {
+        when: "The sku exists"
         def resp = restBuilder().get("$baseUrl/api/v1/inventory/products/wdg-base-gold-m")
 
 
         then: "verify response is correct"
         resp.status == OK.value()
-        resp.json.sku == "WDG-BASE-GOLD-M" //60 Default Elements
+        resp.json.sku == "WDG-BASE-GOLD-M"
 
     }
+
 
     void "inventory/products/invalid sku"() {
         when: "The products with non-existent sku"
@@ -74,6 +84,8 @@ class InventoryProductControllerSpec extends GebSpec {
 
         then: "verify response is correct"
         resp.status == OK.value()
+        resp.json.sku == "WDG-BASE-GOLD-M"
+        resp.json.count == 1
 
 
     }
@@ -93,25 +105,28 @@ class InventoryProductControllerSpec extends GebSpec {
 
     }
 
-    void "inventory/products/ batch updateswidget count"() {
-        when: "The batch update valid skus"
-        def resp = restBuilder().put("$baseUrl/api/v1/inventory/products") {
-            json(
-                    [
-                            ([count: 1, sku: "WDG-BASE-GOLD-S"]),
-                            ([count: 2, sku: "WDG-BASE-GOLD-M"]),
-                            ([count: 3, sku: "WDG-BASE-GOLD-L"])
-                    ]
-
-            )
-        }
-
-
-        then: "The response is correct"
-        resp.status == OK.value()
-
-
-    }
+    /**
+     * TODO: Implement batch product updates
+     */
+//    private void "inventory/products/ batch updateswidget count"() {
+//        when: "The batch update valid skus"
+//        def resp = restBuilder().put("$baseUrl/api/v1/inventory/products") {
+//            json(
+//                    [
+//                            ([count: 1, sku: "WDG-BASE-GOLD-S"]),
+//                            ([count: 2, sku: "WDG-BASE-GOLD-M"]),
+//                            ([count: 3, sku: "WDG-BASE-GOLD-L"])
+//                    ]
+//
+//            )
+//        }
+//
+//
+//        then: "The response is correct"
+//        resp.status == OK.value()
+//
+//
+//    }
 
     void "Test that create is disabled"(){
 

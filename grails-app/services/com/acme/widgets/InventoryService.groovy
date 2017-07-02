@@ -35,26 +35,30 @@ class InventoryService {
     List<InventoryProduct> queryInventoryProductCounts(InventoryProductQuery ipQuery) {
 
         List results
-        if (ipQuery.validate()) {
+        if (ipQuery.hasQueryParams()) {
 
-            // Within a range
+            def query
+            //FIXME: Can add more conditions, but just getting some of the same ones in
             if (ipQuery.lt >= 0 && ipQuery.gt >= 0 && ipQuery.lt >= ipQuery.gt) {
 
+                query = InventoryProduct.where{ count > ipQuery.gt && count < ipQuery.lt}
             } else if (ipQuery.lt >= 0) {
 
+                query = InventoryProduct.where{ count < ipQuery.lt}
             } else if (ipQuery.gt >= 0) {
+                query = InventoryProduct.where{ count > ipQuery.gt}
 
             } else if (ipQuery.eq >= 0) {
-
-            } else if (ipQuery.sku) {
-                results = InventoryProduct.findAllByProduct(Product.findBySku(ipQuery.sku))
+                query = InventoryProduct.where{ count == ipQuery.eq}
             } else {
-                //Somehow it got here, so give them nothing.
-                results = []
+                // Should never happen
+                query = InventoryProduct.where{ count < 0}
             }
 
+            results = query.list()
+
         } else {
-            results = []
+            results = InventoryProduct.list()
         }
 
         return results
