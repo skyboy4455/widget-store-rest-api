@@ -247,6 +247,22 @@ NOTE: Example shows operations
 
 ```
 
+### Test URLs for DEV mode WAR's default records
+
+#### Inventory
+* http://localhost:8080/widget-store-rest-api/api/v1/inventory/products
+* http://localhost:8080/widget-store-rest-api/api/v1/inventory/products/WDG-BASE-COPPER-S
+* http://localhost:8080/widget-store-rest-api/api/v1/inventory/products?lt=10
+* http://localhost:8080/widget-store-rest-api/api/v1/inventory/products?lt=50&gt=10
+* http://localhost:8080/widget-store-rest-api/api/v1/inventory/products?eq=10
+
+#### Widgets
+* http://localhost:8080/widget-store-rest-api/api/v1/products/widgets
+* http://localhost:8080/widget-store-rest-api/api/v1/products/widgets?size=small
+
+### Orders
+* http://localhost:8080/widget-store-rest-api/api/v1/store/orders
+* http://localhost:8080/widget-store-rest-api/api/v1/store/orders/1
 
 ### Implementation Details
 
@@ -288,20 +304,26 @@ NOTE: Example shows operations
 
 #### WAR File Deployment
 
-Deployable WAR Archive for Tomcat 7 or greater []
-#### JAR File Deployment
+DEV mode deployable war found in projects /deploy directory. Contains 60 default widgets, 1 default 
+
+[widge-store-rest-api.war](https://github.com/skyboy101/widget-store-rest-api/blob/api.widget.refactor.1/deploy/widget-store-rest-api.war)
 
 
-## ISSUES
-### ISSUE: Headless, No UI for application
+
+## TODOs
+### ISSUES
+#### ISSUE: Headless, No UI for application
 Currently application is a only headless REST API 
 
-### ISSUE: Inventory management system allows negative number
+#### ISSUE: Inventory management system allows negative number
 Need to implement inventory increment / decrement on Purchase Ordering
 
-### ISSUE: Add URL examples to documentation
+#### ISSUE: Widget creation needs to create default InventoryProduct record
 
-## Enhancements
+#### ISSUE: Running as java -jar not working
+Unable to run war file as a jar
+
+### Enhancements
 ### ENH: Query Purchase Orders with SKU
 Add functionality to return all POs with a specific product SKU
 
