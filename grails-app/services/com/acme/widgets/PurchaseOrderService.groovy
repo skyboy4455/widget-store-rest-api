@@ -46,12 +46,12 @@ class PurchaseOrderService {
      * @param PurchaseOrder
      * @param skuCountMap
      */
-    def updatePurchaseOrder(Long orderNumber, Map<String, Integer> skuCountMap) {
+    def updatePurchaseOrder(purchaseOrder, Map<String, Integer> skuCountMap) {
 
         //Lookup purchase order
         Map errors = [:]
 
-        PurchaseOrder purchaseOrder = PurchaseOrder.findById(orderNumber)
+
         if (purchaseOrder) {
 
             InventoryProduct inventoryProduct
@@ -64,9 +64,10 @@ class PurchaseOrderService {
                 verifyAndupdatePurchaseOrderForSku(purchaseOrder, itemRequestCount, sku, errors)
             }
         } else {
-            errors[orderNumber] = 'po.no.resource'
+            errors[purchaseOrder.id] = 'po.no.resource'
         }
 
+        println errors
         return errors
 
     }
@@ -102,8 +103,8 @@ class PurchaseOrderService {
 
         } else {
 
-            //TODO: Implement feature to add new orderItems.
-            errors["not-yet-supported"] = 'po.error.add.new.skus.notSupported'
+            //FIXME: Skipping Inventory Check
+            purchaseOrder.addToItems(new OrderItem(sku: sku, total: requestAmount))
         }
     }
 
