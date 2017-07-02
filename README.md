@@ -267,17 +267,9 @@ NOTE: Example shows operations
 ### Implementation Details
 
 #### Domain Classes
-* Products - Items that are sold via the store front
-    - Product: Base class for an item in the store
-    - Widget: Extends Product for customization of an item being sold in the store
-    - WidgeType: Used to categorize a Widget
-    - WidgetSize: Used to define a Widget's Form factor
-    - WidgetFinish: Used to describe a Widget's Finish
-* Inventory - Products that are stored in an inventory somewhere (e.g. warehouse, thirdparty shipper, closet, etc.)
-    - InventoryProduct: Represents the product that resides in the warehouse, keeps a count in inventory
-* Orders
-    - Order: Keeps a list of items to be added to the order
-    - OrderItem: Contains the Product being purchased and the quantity
+
+View Domain Classes: 
+[Domain Class Diagram](https://raw.githubusercontent.com/skyboy101/widget-store-rest-api/api.widget.refactor.1/deploy/domain_diagram.png?token=AC7q_-sX2irceGDUrNVAb9GtdL9AA_GCks5ZYl4VwA%3D%3D)
     
 #### Controllers
 
