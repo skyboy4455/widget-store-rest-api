@@ -17,9 +17,10 @@ presentations of domain class resources.
 #### Ordering
 * Create an order of products
 * Query order information
-* Update order, to add or removed products
+* Update order, to add or update product quantities ( set to 0 to remove)
 * Delete the order
  
+
 
 ### REST API
 
@@ -27,14 +28,72 @@ presentations of domain class resources.
 
 | URL   |      METHOD      |  Description | Error Response  / Message|
 |----------|:-------------:|:------|-----|
-| ./products/widgets\[?type=widgetType\]\[&size=widgetSize\]\[&finish=widgetFinish\] |  GET | Returns widgets matching params | 400 (InvalidInput)|
-| ./product/widgets/\<sku\> |  GET | Returns widget based on sku | 404 (ResourceNotFound)|
-| ./product/widgets |  POST | Creates a new widget type | 400 (InvalidInput)|
-| ./product/widgets |  PUT | Creates a new widget type | 405 (UnsupportedHttpVerb)|
-| ./product/widgets |  DELETE | Creates a new widget type | 405 (UnsupportedHttpVerb)|
+| ./api/v1/products/widgets\[?type=widgetType\]\[&size=widgetSize\]\[&finish=widgetFinish\] |  GET | Returns widgets matching params | 400 (InvalidInput)|
+| ./api/v1/product/widgets/\<sku\> |  GET | Returns widget based on sku | 404 (ResourceNotFound)|
+| ./api/v1/product/widgets |  POST | Creates a new widget type | 400 (InvalidInput)|
+| ./api/v1/product/widgets |  PUT | Update widget type not supported | 405 (UnsupportedHttpVerb)|
+| ./api/v1/product/widgets |  DELETE | Delete widget type not support | 405 (UnsupportedHttpVerb)|
 
 
 NOTE: Only widget products have implementation.  Open to create other product classifications
+
+##### Examples
+**XXXTitle**
+
+_METHODXXX: \<baseUrl\>XXXURL_
+
+**body**
+ ```json
+[
+  
+]
+```
+
+**result**
+ ```json
+[
+  
+]
+```
+
+**XXXTitle**
+
+_METHODXXX: \<baseUrl\>XXXURL_
+
+**body**
+ ```json
+[
+  
+]
+```
+
+**result**
+ ```json
+[
+  
+]
+```
+
+**XXXTitle**
+
+_POST: \<baseUrl\>XXXURL_
+
+**body**
+ ```json
+{
+  "widgetType" : {"name": "newType", "skuCode":"NT_SKU"},
+  "widgetSize" : {"name": "newSize", "skuCode":"NS_SKU"},
+  "widgetFinish" : {"name": "newFinish", "skuCode":"NF_SKU"}
+}
+```
+
+**result**
+ ```json
+[
+  
+]
+```
+
 
 #### Inventory Management
 This API exposes operations on getting inventory information.  
@@ -43,19 +102,151 @@ same data source where
 
 | URL   |      METHOD      |  Description |Error Response  / Message|
 |----------|:-------------:|:------|-----|
-| ./inventory/product |  GET | Returns all product quantities | 404 (ResourceNotFound) or 400 (InvalidInput)|
-| ./inventory/product/\<sku\> |  GET | Returns single product quantities | 404 (ResourceNotFound) or 400 (InvalidInput)|
-| ./inventory/product/\<sku\>?count=amount |  PUT | Updates single product | 404 (ResourceNotFound) or 400 (InvalidInput)|
-| ./inventory/product/\<sku\> |  DELETE | Removing Inventory Products not supported | 405 (UnsupportedHttpVerb)|
-| ./inventory/product/\<sku\> |  POST | Creating Inventory Products not supported | 405 (UnsupportedHttpVerb)|
+| ./api/v1/inventory/products\[?lt=num\]\[&gt=num\]\[&eq=num\] |  GET | Returns all product quantities | 404 (ResourceNotFound) or 400 (InvalidInput)|
+| ./api/v1/inventory/products/\<sku\> |  GET | Returns single product quantities | 404 (ResourceNotFound) or 400 (InvalidInput)|
+| ./api/v1/inventory/products/\<sku\>|  PUT | Updates single product, request body has count value| 404 (ResourceNotFound) or 400 (InvalidInput)|
+| ./api/v1/inventory/products/\<sku\> |  DELETE | Removing Inventory Products not supported | 405 (UnsupportedHttpVerb)|
+| ./api/v1/inventory/products/\<sku\> |  POST | Creating Inventory Products not supported | 405 (UnsupportedHttpVerb)|
+
+##### Examples
+
+**Query Inventory by Quantities with exact count**
+
+_GET: \<baseUrl\>/api/v1/inventory/products?eq=10_
+
+**result**
+ ```json
+[
+  {"count":10,"description":"n/a","sku":"WDG-BASE-GOLD-M"},
+  {"count":10,"description":"n/a","sku":"WDG-BASE-COPPER-M"},
+  {"count":10,"description":"n/a","sku":"WDG-BASE-STEEL-M"},
+  {"count":10,"description":"n/a","sku":"WDG-BASE-WHITE-M"},
+  {"count":10,"description":"n/a","sku":"WDG-BASE-BLACK-M"}
+]
+```
+**Update Inventory Product quantity**
+
+_PUT: \<baseUrl\>//api/v1/inventory/products/WDG-BASE-GOLD-M_
+
+**body**
+```json
+{ "count": 2 }
+```
+
+**result**
+```json
+{"count":2, "description":"n/a", "sku":"WDG-BASE-GOLD-M"}
+```
+
 
 #### Order Management
 | URL   |      METHOD      |  Description | Error Response  / Message|
 |----------|:-------------:|:------|-----|
-| ./order |  POST | Creates a new order |400 (InvalidInput)|
-| ./order/\<orderId\> |  GET | Returns order information |404 (ResourceNotFound)|
-| ./order/\<orderId\> |  PUT | Updates an order information |404 (ResourceNotFound) or 400 (InvalidInput)|
-| ./order/\<orderId\> |  DELETE | Deletes an order |405 (UnsupportedHttpVerb)|
+| ./api/v1/store/orders |  POST | Creates a new order |400 (InvalidInput)|
+| ./api/v1/store/orders/\<orderId\> |  GET | Returns order information |404 (ResourceNotFound)|
+| ./api/v1/store/orders\<orderId\> |  PUT | Updates an order information |404 (ResourceNotFound) or 400 (InvalidInput)|
+| ./api/v1/store/orders\<orderId\> |  DELETE | Deletes an order |405 (UnsupportedHttpVerb)|
+
+##### Examples
+
+
+
+**Query All Purchase Orders**
+
+_GET: \<baseUrl\>/api/v1/store/orders_
+
+**result**
+ ```json
+[
+  {
+    "orderNum":1,
+    "items":[
+      {"quantity":5,"sku":"WDG-BASE-GOLD-M"},
+      {"quantity":7,"sku":"WDG-BASE-COPPER-L"},
+      {"quantity":10,"sku":"WDG-MEGA-GOLD-M"},{
+      "quantity":8,"sku":"WDG-ULTRA-GOLD-M"}
+    ]
+   }
+]
+```
+
+** Query Single Purchase Order**
+
+_GET: \<baseUrl\>api/v1/store/orders/\<orderNum\>_
+
+**result**
+ ```json
+{
+   "orderNum":1,
+   "items":[
+     {"quantity":5,"sku":"WDG-BASE-GOLD-M"},
+     {"quantity":7,"sku":"WDG-BASE-COPPER-L"},
+     {"quantity":10,"sku":"WDG-MEGA-GOLD-M"},
+     {"quantity":8,"sku":"WDG-ULTRA-GOLD-M"}
+   ]
+}
+```
+
+
+**Create Purchase Order**
+
+_POST: \<baseUrl\>/api/v1/store/orders_
+
+**body**
+ ```json
+ [
+  {"quantity":1,"sku":"WDG-BASE-COPPER-L"},
+  {"quantity":1,"sku":"WDG-BASE-COPPER-S"},
+  {"quantity":1,"sku":"WDG-BASE-COPPER-M"}
+ ]
+```
+
+**result**
+ ```json
+{
+  "orderNum":2,
+  "items":[
+    {"quantity":1,"sku":"WDG-BASE-COPPER-L"},
+    {"quantity":1,"sku":"WDG-BASE-COPPER-S"},
+    {"quantity":1,"sku":"WDG-BASE-COPPER-M"}
+  ]
+}
+```
+
+**Update Purchase Order**
+
+_PUT: \<baseUrl\>/api/v1/store/orders/1_
+
+NOTE: Example shows operations
+* Adding 3 new products
+* Update WDG-MEGA-GOLD-M from 10 to 1
+
+**body**
+ ```json
+[
+{"quantity":5, "sku":"WDG-BASE-COPPER-L"}, 
+{"quantity":1, "sku":"WDG-BASE-COPPER-L"}, 
+{"quantity":1, "sku":"WDG-BASE-COPPER-L"}, 
+{"quantity":1, "sku":"WDG-BASE-COPPER-L"}
+ ]
+```
+
+**result**
+ ```json
+
+ {
+  "orderNum":1,
+  "items":[
+    {"quantity":8,"sku":"WDG-ULTRA-GOLD-M"},
+    {"quantity":5,"sku":"WDG-BASE-COPPER-L"},
+    {"quantity":1,"sku":"WDG-BASE-COPPER-M"},
+    {"quantity":1,"sku":"WDG-BASE-COPPER-S"},
+    {"quantity":5,"sku":"WDG-BASE-GOLD-M"},
+    {"quantity":1,"sku":"WDG-MEGA-GOLD-M"}]
+ }
+
+```
+
 
 ### Implementation Details
 
@@ -100,13 +291,18 @@ same data source where
 #### JAR File Deployment
 
 
-## Enhancements / ISSUES
-### ISSUE: Ran out of time to implement demo GUI
+## ISSUES
+### ISSUE: Headless, No UI for application
 Currently application is a only headless REST API 
 
-### ISSUE: Duplicate Products in Order
-This app does not consolidate order items based on sku.  Customer could have multiple products with the same sku and differing quantities.
+### ISSUE: Inventory management system allows negative number
+Need to implement inventory increment / decrement on Purchase Ordering
 
+### ISSUE: Add URL examples to documentation
+
+## Enhancements
+### ENH: Query Purchase Orders with SKU
+Add functionality to return all POs with a specific product SKU
 
 
 

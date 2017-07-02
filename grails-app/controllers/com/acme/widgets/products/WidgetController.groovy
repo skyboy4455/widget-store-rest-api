@@ -1,6 +1,7 @@
 package com.acme.widgets.products
 
 import com.acme.widgets.WidgetService
+import com.acme.widgets.web.WidgetCreateInfo
 import com.acme.widgets.web.WidgetQuery
 
 import static org.springframework.http.HttpStatus.*
@@ -35,7 +36,7 @@ class WidgetController {
     def query(){
 
         WidgetQuery widgetQuery= new WidgetQuery(params)
-        respond widgetService.findAllWidgetsFromQuery(widgetQuery)
+        respond view: "index" ,widgetService.findAllWidgetsFromQuery(widgetQuery)
 
     }
 
@@ -49,54 +50,26 @@ class WidgetController {
     }
 
     @Transactional
-    def save(Widget widget) {
-        if (widget == null) {
-            transactionStatus.setRollbackOnly()
-            render status: NOT_FOUND
-            return
-        }
+    def createWidget(){
 
-        if (widget.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond widget.errors, view:'create'
-            return
-        }
+        println request.JSON
 
-        widget.save flush:true
+        WidgetCreateInfo widgetCreateInfo = new WidgetCreateInfo(
+                widgetTypeName: request?.JSON?.widgetType?.name,
+                widgetTypeSkuCode: request?.JSON?.widgetType?.skuCode,
 
-        respond widget, [status: CREATED, view:"show"]
+                widgetFinishName: request?.JSON?.widgetFinish?.name,
+                widgetFinishSkuCode: request?.JSON?.widgetFinish?.skuCode,
+
+                widgetSizeName: request?.JSON?.widgetSize?.name,
+                widgetSizeSkuCode: request?.JSON?.widgetSize?.skuCode
+
+        )
+        Widget widget = widgetService.createWidget(widgetCreateInfo)
+
+
+        respond view:"show", widget
     }
 
-    @Transactional
-    def update(Widget widget) {
-        if (widget == null) {
-            transactionStatus.setRollbackOnly()
-            render status: NOT_FOUND
-            return
-        }
 
-        if (widget.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond widget.errors, view:'edit'
-            return
-        }
-
-        widget.save flush:true
-
-        respond widget, [status: OK, view:"show"]
-    }
-
-    @Transactional
-    def delete(Widget widget) {
-
-        if (widget == null) {
-            transactionStatus.setRollbackOnly()
-            render status: NOT_FOUND
-            return
-        }
-
-        widget.delete flush:true
-
-        render status: NO_CONTENT
-    }
 }

@@ -40,16 +40,35 @@ class PurchaseOrderController {
 
     }
 
+    @Transactional
     def createInventory(){
 
         println request.JSON
-        PurchaseOrder purchaseOrder = new PurchaseOrder().save()
-        respond view: 'show', purchaseOrder
+
+        Map<String,Integer> skuCountMap = [:]
+
+        request.JSON.each {
+
+            skuCountMap[it?.sku?.trim()?.toUpperCase()] = Integer.valueOf((String) it?.quantity)
+        }
+
+
+        def errors = purchaseOrderService.createNewOrder(skuCountMap)
+
+        if (!errors) {
+
+            respond view: 'show', PurchaseOrder.last()
+        } else {
+            render view:'/errors/invalidInput'
+        }
+
     }
 
     //====================================================================================
 
     def index(Integer max) {
+
+        //TODO: Add functionality to lookup purchase order that contains SKU
         params.max = Math.min(max ?: 30, 100)
         respond PurchaseOrder.list(params), model:[orderCount: PurchaseOrder.count()]
     }
@@ -99,14 +118,6 @@ class PurchaseOrderController {
     @Transactional
     def delete(PurchaseOrder order) {
 
-        if (order == null) {
-            transactionStatus.setRollbackOnly()
-            render status: NOT_FOUND
-            return
-        }
-
-        order.delete flush:true
-
-        render status: NO_CONTENT
+        render view: "/errors/unsupportedHttpVerb"
     }
 }
