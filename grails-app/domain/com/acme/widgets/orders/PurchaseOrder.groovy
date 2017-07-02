@@ -1,15 +1,15 @@
 package com.acme.widgets.orders
 
-class Order {
+class PurchaseOrder {
 
-    //Order Id - Use default database id for this application
-    Integer orderNumber
+    //PurchaseOrder Id - Use default database id for this application
+
+    Set items = [] as Set
 
     static hasMany = [items: OrderItem]
 
     static constraints = {
 
-        orderNumber nullable: false, unique: true
         items nullable: true
     }
 

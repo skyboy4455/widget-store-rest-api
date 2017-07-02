@@ -4,11 +4,11 @@ import com.acme.widgets.products.Product
 
 class OrderItem {
 
-    Product product
-    Integer quantity=1
+    String sku
+    Integer total=1
 
     static constraints = {
-        product nullable: false
-        quantity nullable: false, min: 1
+        sku nullable: false
+        total nullable: false, min: 1
     }
 }

@@ -1,0 +1,6 @@
+response.status 404
+
+json {
+    message "Unknown Resource"
+    error 404
+}

@@ -1,7 +1,6 @@
 response.status 405
 
 json {
-    message "Unsupported HTTP Verb for this resource"
-    code "unsupported.http.verb"
+    message "Invalided Input"
     error 405
 }

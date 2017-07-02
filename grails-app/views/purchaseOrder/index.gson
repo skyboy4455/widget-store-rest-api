@@ -1,8 +1,8 @@
 import com.acme.widgets.orders.PurchaseOrder
 
 model {
-	Iterable<PurchaseOrder> orderList
+	Iterable<PurchaseOrder> purchaseOrderList
 }
 
-json tmpl.order(orderList ?: [])
+json tmpl.order(purchaseOrderList ?: [])
 
