@@ -284,10 +284,11 @@ NOTE: Example shows operations
 * Lookup Widgets based on URL attributes
     - Format error responses when necessary
 
-### Deployment Options
+### Deployment
 
 #### WAR File Deployment
 
+Deployable WAR Archive for Tomcat 7 or greater []
 #### JAR File Deployment
 
 

@@ -7,5 +7,5 @@ model {
 json{
 
     orderNum purchaseOrder.id
-    items tmpl.'/orderItem/orderItem'(purchaseOrder.items)
+    items tmpl.'../orderItem/orderItem'(purchaseOrder.items)
 }
